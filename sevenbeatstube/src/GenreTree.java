@@ -15,6 +15,30 @@ public class GenreTree {
             root = insert(root, g);
         }
     }
+private boolean cari(GenreNode node, String g) {
+        if (node == null) return false;
+        if (node.genre.equalsIgnoreCase(g)) return true;
+        if (g.compareToIgnoreCase(node.genre) < 0) return cari(node.left, g);
+        return cari(node.right, g);
+    }
 
+    public boolean cariGenre(String g) {
+        return cari(root, g);
+    }
+
+    public void inorder() {
+        System.out.println("Daftar Genre (A-Z):");
+        inorderTraversal(root);
+        System.out.println();
+    }
+
+    private void inorderTraversal(GenreNode node) {
+        if (node != null) {
+            inorderTraversal(node.left);
+            System.out.println("   • " + node.genre);
+            inorderTraversal(node.right);
+        }
+    }
     
+
 }
