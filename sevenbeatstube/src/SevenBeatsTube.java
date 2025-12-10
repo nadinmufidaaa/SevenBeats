@@ -1,19 +1,45 @@
 import java.util.Scanner;
 
 public class SevenBeatsTube {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        DaftarVideo daftar = new DaftarVideo();
-        Queue upNext = new Queue();
-        Stack history = new Stack();
-        GenreTree genreTree = new GenreTree();
+    private static final String RED    = "\u001B[31m";
+    private static final String BLUE   = "\u001B[34m";
+    private static final String GRAY   = "\u001B[90m";
+    private static final String YELLOW = "\u001B[33m";
+    private static final String CYAN   = "\u001B[36m";
+    private static final String RESET  = "\u001B[0m";
+    private static final String BOLD   = "\u001B[1m";
 
-        // Data awal (tanpa array)
+    private static final DaftarVideo daftar = new DaftarVideo();
+    private static final Queue upNext = new Queue();
+    private static final Stack history = new Stack();
+    private static final GenreTree genreTree = new GenreTree();
+    private static final Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
         daftar.tambah(new Video("Belajar Java Dasar", "KodingAsik", 35, 920000, "Tutorial"));
         daftar.tambah(new Video("Kompilasi Meme 2025", "MemeLucuID", 7, 3800000, "Comedy"));
         daftar.tambah(new Video("Valorant Clutch 1v5", "ProGamerID", 18, 2100000, "Gaming"));
         daftar.tambah(new Video("Cinta di Akhir Hayat", "DramaSedih", 42, 1100000, "Drama"));
         daftar.tambah(new Video("Sial - Mahalini Live", "KonserID", 5, 6200000, "Music"));
+        daftar.tambah(new Video("Excel untuk Pemula", "ExcelGue", 75, 1560000, "Tutorial"));
+        daftar.tambah(new Video("Stand Up Pandji 2025", "Pandji", 70, 5200000, "Comedy"));
+        daftar.tambah(new Video("Minecraft Speedrun WR", "SpeedRunID", 14, 6700000, "Gaming"));
+        daftar.tambah(new Video("Dilan 1991 Nangis", "FalconPic", 8, 29800000, "Drama"));
+        daftar.tambah(new Video("To The Bone - Pamungkas", "Pamungkas", 7, 56700000, "Music"));
+        daftar.tambah(new Video("Python 1 Jam", "CodeZamanNow", 60, 3900000, "Tutorial"));
+        daftar.tambah(new Video("Try Not To Laugh", "Dika", 15, 13400000, "Comedy"));
+        daftar.tambah(new Video("GTA 6 Trailer Reaction", "Miawaug", 12, 18900000, "Gaming"));
+        daftar.tambah(new Video("Pengabdi Setan 3", "JokoAnwar", 180, 31200000, "Drama"));
+        daftar.tambah(new Video("Pesan Terakhir - Lyodra", "Trinity", 5, 45600000, "Music"));
+        daftar.tambah(new Video("HTML CSS Website", "WebUNPAS", 80, 2400000, "Tutorial"));
+        daftar.tambah(new Video("Roasting TikTokers", "Jerome", 45, 9800000, "Comedy"));
+        daftar.tambah(new Video("Free Fire 1vs4", "Frontal", 18, 11200000, "Gaming"));
+        daftar.tambah(new Video("KKN Desa Penari", "MDPictures", 130, 78900000, "Drama"));
+        daftar.tambah(new Video("Adaptasi - Tulus", "Tulus", 4, 61200000, "Music"));
+        daftar.tambah(new Video("Timnas Indonesia vs Thailand", "BolaID", 110, 8900000, "Sports"));
+        daftar.tambah(new Video("Cuaca Ekstrem 2025", "KompasTV", 5, 29800000, "News"));
+        daftar.tambah(new Video("Bikin Pizza Homemade", "CookingID", 20, 1800000, "Food"));
+        daftar.tambah(new Video("Day in My Life: Mahasiswa", "StudentVlog", 18, 4500000, "Vlog"));
 
         Node temp = daftar.head;
         while (temp != null) {
