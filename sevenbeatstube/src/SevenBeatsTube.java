@@ -148,4 +148,73 @@ public class SevenBeatsTube {
         tampilkanGridVideo(daftar.head, 6);
     }
 
+    private static void tampilkanGridVideo(Node start, int jumlah) {
+        if (start == null) {
+            System.out.println("   Belum ada video.");
+            return;
+        }
+
+        Node current = start;
+        int count = 0;
+
+        while (current != null && count < jumlah) {
+            // Kumpulkan video untuk satu baris (maksimal 3 kolom)
+            Video[] row = new Video[3];
+            int colsInRow = 0;
+            for (int i = 0; i < 3 && current != null && count < jumlah; i++) {
+                row[i] = current.data;
+                current = current.next;
+                count++;
+                colsInRow++;
+            }
+
+            // Cetak 5 baris thumbnail secara horizontal
+            for (int line = 0; line < 5; line++) {
+                for (int c = 0; c < colsInRow; c++) {
+                    String[] thumb = {
+                            YELLOW + "    ┌────────────────────┐    " + RESET,
+                            YELLOW + "    │                    │    " + RESET,
+                            YELLOW + "    │   ▄▀█ █▀▄  VIDEO   │    " + RESET,
+                            YELLOW + "    │                    │    " + RESET,
+                            YELLOW + "    └────────────────────┘    " + RESET
+                    };
+                    System.out.print(thumb[line]);
+                }
+                System.out.println(); // pindah baris setelah satu baris thumbnail selesai
+            }
+
+            // Cetak judul
+            for (int c = 0; c < colsInRow; c++) {
+                String judul   = truncate(row[c].judul, 22);
+                System.out.printf("    %s%-22s%s    ", BOLD, judul, RESET);
+            }
+            System.out.println();
+            // Chanel, views, durasi
+            for (int c = 0; c < colsInRow; c++) {
+                String channel = truncate(row[c].channel, 18);
+                String views   = formatViews(row[c].view);
+                int m  = row[c].durasi;
+                String durasi = (m>=60)? (m/60) + " jam" : m + " menit";
+                String gabung = channel + " • " + views +" • "+ durasi;
+                System.out.printf("    %s%-26s%s", CYAN, gabung, RESET);
+            }
+            System.out.println();
+            for (int c = 0; c < colsInRow; c++) {
+                String genre   = row[c].genre;
+                System.out.printf("    %s%-22s%s    ", GRAY, genre, RESET);
+            }
+            System.out.println();
+            // Garis pemisah antar baris video (kecuali baris terakhir)
+            if (current != null && count < jumlah) {
+                System.out.println("   " + "─".repeat(88));
+            }
+        }
+
+        System.out.println();
+    }
+
+    private static String truncate(String s, int max) {
+        return s.length() > max ? s.substring(0, max - 3) + "..." : s;
+    }
+
 }
