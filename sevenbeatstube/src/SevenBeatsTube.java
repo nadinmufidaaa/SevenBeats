@@ -102,4 +102,23 @@ public class SevenBeatsTube {
             }
         } while (p != 0);
     }
+    public static void tampilkanHomePage() {
+        System.out.println(RED + BOLD +
+                "    ███████╗ ███████╗ ██╗   ██╗ ███████╗ ███╗   ██╗ ████████╗ ██╗   ██╗ ██████╗  ███████╗\n" +
+                "    ██╔════╝ ██╔════╝ ██║   ██║ ██╔════╝ ████╗  ██║ ╚══██╔══╝ ██║   ██║ ██╔══██╗ ██╔════╝\n" +
+                "    ████████╗█████╗   ██║   ██║ █████╗   ██╔██╗ ██║    ██║    ██║   ██║ ██████╔╝ █████╗  \n" +
+                "    ╚════██║ ██╔══╝   ╚██╗ ██╔╝ ██╔══╝   ██║╚██╗██║    ██║    ██║   ██║ ██╔══██╗ ██╔══╝  \n" +
+                "    ███████║ ███████╗  ╚████╔╝  ███████╗ ██║ ╚████║    ██║    ╚██████╔╝ ██║  ██║ ███████╗\n" +
+                "    ╚══════╝ ╚══════╝   ╚═══╝   ╚══════╝ ╚═╝  ╚═══╝    ╚═╝    ╚═════╝   ╚═╝  ╚═╝ ╚══════╝\n" +
+                RESET);
+        System.out.println(YELLOW + BOLD +
+                "                                 YouTube Clone • SevenTubes 2025                              \n" +
+                RESET);
+
+        System.out.println(GRAY + "        Untuk Anda  •  Trending  •  Musik  •  Gaming  •  Komedi  •  Drama  •  Tutorial" + RESET);
+        System.out.println("   " + "═".repeat(88));
+
+        daftar.sortByView();
+        tampilkanGridVideo(daftar.head, 6);
+    }
 }
