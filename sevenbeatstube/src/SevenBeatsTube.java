@@ -46,21 +46,46 @@ public class SevenBeatsTube {
             genreTree.tambahGenre(temp.data.genre);
             temp = temp.next;
         }
+      String[] menuUtama = {
+                "ADD", "DELETE", "LIST",
+                "SEARCH", "SORT", "ADD_Q",
+                "NEXT", "HISTORY", "GENRE"
+        };
+
+        // Konstanta lebar kolom untuk kerapian
+        final int LEBAR_KOLOM = 10;
+        final String GARIS_PEMBATAS = "------------------------------------------";
 
         int p;
+        tampilkanHomePage();
         do {
-            System.out.println("=== SevenBeatsTube ===");
-            System.out.println("1. Tambah Video");
-            System.out.println("2. Hapus Video");
-            System.out.println("3. Tampilkan Semua Video");
-            System.out.println("4. Cari Video");
-            System.out.println("5. Sorting Video");
-            System.out.println("6. Tambah ke Up Next");
-            System.out.println("7. Putar Video Berikutnya");
-            System.out.println("8. Tampilkan Riwayat");
-            System.out.println("9. Tampilkan Genre Tree");
-            System.out.println("0. Keluar");
-            System.out.print("Pilih: ");
+            System.out.println("   " + "═".repeat(66));
+            int kolom = 5;
+            int jumlahMenu = menuUtama.length;
+
+            for (int i = 0; i < jumlahMenu; i += kolom) {
+                System.out.print("   │ ");
+                for (int j = 0; j < kolom; j++) {
+                    int index = i + j;
+                    if (index < jumlahMenu)
+                        System.out.printf("%-" + LEBAR_KOLOM + "s │ ", index + 1);
+                    else
+                        System.out.printf("%-" + LEBAR_KOLOM + "s │ ", "0"); // kolom kosong
+                }
+                System.out.println(" ");
+                System.out.print("   │ ");
+                for (int j = 0; j < kolom; j++) {
+                    int index = i + j;
+                    if (index < jumlahMenu)
+                        System.out.printf("%-" + LEBAR_KOLOM + "s │ ", menuUtama[index]);
+                    else
+                        System.out.printf("%-" + LEBAR_KOLOM + "s │ ", "OUT"); // kolom kosong
+                }
+                System.out.println(" ");
+
+                System.out.println("   " + "═".repeat(66));
+            }
+            System.out.print("   Pilih: ");
             p = sc.nextInt();
             sc.nextLine();
             System.out.println();
