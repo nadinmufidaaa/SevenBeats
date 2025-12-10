@@ -83,13 +83,14 @@ public class SevenBeatsTube {
                     System.out.println("Video dihapus jika ada.\n");
                     break;
 
-                case 3: daftar.tampilkanSemua(); break;
+                case 3: 
+                    daftar.tampilkanSemua(); 
+                    break;
+                    
                 case 4:
-                    System.out.println("1.Judul  2.Channel  3.Genre");
-                    int ct = sc.nextInt(); sc.nextLine();
-                    System.out.print("Kata kunci: "); String key = sc.nextLine();
-                    String tipe = (ct == 1) ? "judul" : (ct == 2) ? "channel" : "genre";
-                    daftar.cari(key, tipe);
+                    System.out.print("   Masukkan judul Video: "); String key = sc.nextLine();
+                    Video dicari = daftar.cari(key, "judul");
+                    history.push(dicari);
                     break;
 
                 case 5:
@@ -116,15 +117,22 @@ public class SevenBeatsTube {
                     if (play == null) {
                         System.out.println("Up Next kosong!\n");
                     } else {
-                        System.out.println("Memutar: " + play.judul + "\n");
+                        puterVideo(play);
                         history.push(play);
                     }
                     break;
 
-                case 8: history.tampilkanHistory(); break;
-                case 9: genreTree.inorder(); break;
-                case 0: System.out.println("Terima kasih!"); break;
-                default: System.out.println("Pilihan salah!\n");
+                case 8: 
+                    history.tampilkanHistory(); 
+                    break;
+                case 9: 
+                    genreTree.inorder(); 
+                    break;
+                case 0: 
+                    System.out.println("Terima kasih!"); 
+                    break;
+                default: 
+                    System.out.println("Pilihan salah!\n");
             }
         } while (p != 0);
     }
