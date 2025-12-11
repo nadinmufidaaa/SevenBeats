@@ -57,23 +57,28 @@ public class DaftarVideo {
         System.out.println();
     }
 
-    public void sortByView() {
-        if (head == null) return;
-        boolean swapped;
-        do {
-            swapped = false;
-            Node temp = head;
-            while (temp.next != null) {
-                if (temp.data.view < temp.next.data.view) {
-                    Video swap = temp.data;
-                    temp.data = temp.next.data;
-                    temp.next.data = swap;
-                    swapped = true;
+     public void sortByView() {
+        if (head == null || head.next == null) return;
+        Node sorted = null;
+        Node curr = head;
+        while (curr != null) {
+            Node next = curr.next;
+            if (sorted == null || curr.data.view > sorted.data.view) {
+                curr.next = sorted;
+                sorted = curr;
+            } else {
+                Node temp = sorted;
+                while (temp.next != null && temp.next.data.view >= curr.data.view) {
+                    temp = temp.next;
                 }
-                temp = temp.next;
+                curr.next = temp.next;
+                temp.next = curr;
             }
-        } while (swapped);
+            curr = next;
+        }
+        head = sorted;
     }
+    
     public void sortByJudul() {
         if (head == null) return;
         boolean swapped;
