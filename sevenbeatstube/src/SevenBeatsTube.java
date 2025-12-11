@@ -46,24 +46,38 @@ public class SevenBeatsTube {
             genreTree.tambahGenre(temp.data.genre);
             temp = temp.next;
         }
-      String[] menuUtama = {
-                "ADD", "DELETE", "LIST",
-                "SEARCH", "SORT", "ADD_Q",
-                "NEXT", "HISTORY", "GENRE"
-        };
+        Menu menu = new Menu();
+        menu.addMenu("ADD");
+        menu.addMenu("DELETE");
+        menu.addMenu("LIST");
+        menu.addMenu("SEARCH");
+        menu.addMenu("SORT");
+        menu.addMenu("ADD_Q");
+        menu.addMenu("PLAY_Q");
+        menu.addMenu("HISTORY");
+        menu.addMenu("GENRE");
 
         // Konstanta lebar kolom untuk kerapian
         final int LEBAR_KOLOM = 10;
-        final String GARIS_PEMBATAS = "------------------------------------------";
-
         int p;
         tampilkanHomePage();
         do {
             System.out.println("   " + "═".repeat(66));
+
+            // Tampilkan menu dalam 5 kolom per baris
             int kolom = 5;
-            int jumlahMenu = menuUtama.length;
+            int jumlahMenu = 0;
+            MenuNode jumlah = menu.head;
+            while (jumlah!= null) {
+                jumlahMenu++;
+                jumlah = jumlah.next;
+            }
+
+            MenuNode current = menu.head;
 
             for (int i = 0; i < jumlahMenu; i += kolom) {
+
+                // Baris nomor pilihan
                 System.out.print("   │ ");
                 for (int j = 0; j < kolom; j++) {
                     int index = i + j;
@@ -73,18 +87,22 @@ public class SevenBeatsTube {
                         System.out.printf("%-" + LEBAR_KOLOM + "s │ ", "0"); // kolom kosong
                 }
                 System.out.println(" ");
+
+                // Baris teks menu
                 System.out.print("   │ ");
                 for (int j = 0; j < kolom; j++) {
                     int index = i + j;
-                    if (index < jumlahMenu)
-                        System.out.printf("%-" + LEBAR_KOLOM + "s │ ", menuUtama[index]);
-                    else
+                    if (index < jumlahMenu) {
+                        System.out.printf("%-" + LEBAR_KOLOM + "s │ ", current.data);
+                        current = current.next;
+                    } else
                         System.out.printf("%-" + LEBAR_KOLOM + "s │ ", "OUT"); // kolom kosong
                 }
                 System.out.println(" ");
 
                 System.out.println("   " + "═".repeat(66));
             }
+
             System.out.print("   Pilih: ");
             p = sc.nextInt();
             sc.nextLine();
@@ -191,53 +209,92 @@ public class SevenBeatsTube {
         int count = 0;
 
         while (current != null && count < jumlah) {
-            // Kumpulkan video untuk satu baris (maksimal 3 kolom)
-            Video[] row = new Video[3];
             int colsInRow = 0;
-            for (int i = 0; i < 3 && current != null && count < jumlah; i++) {
-                row[i] = current.data;
-                current = current.next;
+
+            // Cetak 5 baris thumbnail
+            for (int line = 0; line < 5; line++) {
+                Node temp = current;
+                colsInRow = 0;
+
+                while (temp != null && colsInRow < 3 && count < jumlah) {
+                    String thumbLine;
+                    switch (line) {
+                        case 0:
+                            thumbLine = YELLOW + "    ┌────────────────────┐    " + RESET;
+                            break;
+                        case 1:
+                            thumbLine = YELLOW + "    │                    │    " + RESET;
+                            break;
+                        case 2:
+                            thumbLine = YELLOW + "    │   ▄▀█ █▀▄  VIDEO   │    " + RESET;
+                            break;
+                        case 3:
+                            thumbLine = YELLOW + "    │                    │    " + RESET;
+                            break;
+                        case 4:
+                            thumbLine = YELLOW + "    └────────────────────┘    " + RESET;
+                            break;
+                        default:
+                            thumbLine = "";
+                    }
+                    System.out.print(thumbLine);
+                    temp = temp.next;
+                    colsInRow++;
+                }
+
+                // Tambahkan spasi kosong jika kolom kurang dari 3
+                for (int i = colsInRow; i < 3; i++) {
+                    System.out.print("                         ");
+                }
+                System.out.println();
+            }
+
+            Node infoNode = current;
+            colsInRow = 0;
+
+            // Judul
+            while (infoNode != null && colsInRow < 3 && count < jumlah){
+                Video video = infoNode.data;
+                String judul = truncate(video.judul, 22);
+                System.out.printf("    %s%-22s%s    ", BOLD, judul, RESET);
+                infoNode = infoNode.next;
+                colsInRow++;
                 count++;
+            }
+            System.out.println();
+
+            //Channel, view, durasi
+            infoNode = current;
+            colsInRow = 0;
+            while (infoNode != null && colsInRow < 3 && count <= jumlah) { // count sudah naik di atas
+                Video video = infoNode.data;
+                String channel = truncate(video.channel, 18);
+                String views   = formatViews(video.view);
+                int m = video.durasi;
+                String durasi = (m >= 60) ? (m / 60) + " jam" : m + " menit";
+                String gabung = channel + " • " + views + " • " + durasi;
+                System.out.printf("    %s%-26s%s", CYAN, gabung, RESET);
+                infoNode = infoNode.next;
                 colsInRow++;
             }
-
-            // Cetak 5 baris thumbnail secara horizontal
-            for (int line = 0; line < 5; line++) {
-                for (int c = 0; c < colsInRow; c++) {
-                    String[] thumb = {
-                            YELLOW + "    ┌────────────────────┐    " + RESET,
-                            YELLOW + "    │                    │    " + RESET,
-                            YELLOW + "    │   ▄▀█ █▀▄  VIDEO   │    " + RESET,
-                            YELLOW + "    │                    │    " + RESET,
-                            YELLOW + "    └────────────────────┘    " + RESET
-                    };
-                    System.out.print(thumb[line]);
-                }
-                System.out.println(); // pindah baris setelah satu baris thumbnail selesai
-            }
-
-            // Cetak judul
-            for (int c = 0; c < colsInRow; c++) {
-                String judul   = truncate(row[c].judul, 22);
-                System.out.printf("    %s%-22s%s    ", BOLD, judul, RESET);
-            }
             System.out.println();
-            // Chanel, views, durasi
-            for (int c = 0; c < colsInRow; c++) {
-                String channel = truncate(row[c].channel, 18);
-                String views   = formatViews(row[c].view);
-                int m  = row[c].durasi;
-                String durasi = (m>=60)? (m/60) + " jam" : m + " menit";
-                String gabung = channel + " • " + views +" • "+ durasi;
-                System.out.printf("    %s%-26s%s", CYAN, gabung, RESET);
-            }
-            System.out.println();
-            for (int c = 0; c < colsInRow; c++) {
-                String genre   = row[c].genre;
+
+            // Genre
+            infoNode = current;
+            colsInRow = 0;
+            while (infoNode != null && colsInRow < 3 && count <= jumlah) {
+                Video video = infoNode.data;
+                String genre = video.genre;
                 System.out.printf("    %s%-22s%s    ", GRAY, genre, RESET);
+                infoNode = infoNode.next;
+                colsInRow++;
             }
             System.out.println();
-            // Garis pemisah antar baris video (kecuali baris terakhir)
+
+            for (int i = 0; i < colsInRow; i++){
+                current = current.next;
+            }
+            // Garis pemisah antar baris video
             if (current != null && count < jumlah) {
                 System.out.println("   " + "─".repeat(88));
             }
