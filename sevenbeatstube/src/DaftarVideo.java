@@ -79,40 +79,62 @@ public class DaftarVideo {
         head = sorted;
     }
     
-    public void sortByJudul() {
-        if (head == null) return;
-        boolean swapped;
-        do {
-            swapped = false;
-            Node temp = head;
-            while (temp.next != null) {
-                if (temp.data.judul.compareToIgnoreCase(temp.next.data.judul) > 0) {
-                    Video swap = temp.data;
-                    temp.data = temp.next.data;
-                    temp.next.data = swap;
-                    swapped = true;
+     public void sortByJudul() {
+        if (head == null || head.next == null) return;
+
+        Node sorted = null;
+        Node curr = head;
+
+        while (curr != null) {
+            Node next = curr.next;
+
+            if (sorted == null ||
+                curr.data.judul.compareToIgnoreCase(sorted.data.judul) < 0) {
+
+                curr.next = sorted;
+                sorted = curr;
+            } else {
+                Node temp = sorted;
+                while (temp.next != null &&
+                    temp.next.data.judul.compareToIgnoreCase(curr.data.judul) <= 0) {
+                    temp = temp.next;
                 }
-                temp = temp.next;
+                curr.next = temp.next;
+                temp.next = curr;
             }
-        } while (swapped);
+
+            curr = next;
+        }
+
+        head = sorted;
     }
 
-    public void sortByDurasi() {
-        if (head == null) return;
-        boolean swapped;
-        do {
-            swapped = false;
-            Node temp = head;
-            while (temp.next != null) {
-                if (temp.data.durasi > temp.next.data.durasi) {
-                    Video swap = temp.data;
-                    temp.data = temp.next.data;
-                    temp.next.data = swap;
-                    swapped = true;
+     public void sortByDurasi() {
+        if (head == null || head.next == null) return;
+
+        Node sorted = null;
+        Node curr = head;
+
+        while (curr != null) {
+            Node next = curr.next;
+
+            if (sorted == null || curr.data.durasi < sorted.data.durasi) {
+
+                curr.next = sorted;
+                sorted = curr;
+            } else {
+                Node temp = sorted;
+                while (temp.next != null && temp.next.data.durasi <= curr.data.durasi) {
+                    temp = temp.next;
                 }
-                temp = temp.next;
+                curr.next = temp.next;
+                temp.next = curr;
             }
-        } while (swapped);
+
+            curr = next;
+        }
+
+        head = sorted;
     }
 
     public Video cari(String kataKunci, String tipe) {
